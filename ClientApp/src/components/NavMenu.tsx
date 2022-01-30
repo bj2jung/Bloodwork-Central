@@ -42,16 +42,6 @@ export default class NavMenu extends React.PureComponent<
                     Home
                   </NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/addRecord">
-                    Add Record
-                  </NavLink>
-                </NavItem>
-                {/*<NavItem>*/}
-                {/*  <NavLink tag={Link} className="text-dark" to="/fetch-data">*/}
-                {/*    Fetch data*/}
-                {/*  </NavLink>*/}
-                {/*</NavItem>*/}
               </ul>
             </Collapse>
           </Container>

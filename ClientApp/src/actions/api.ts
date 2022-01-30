@@ -2,7 +2,6 @@
 import { FormDataModel } from "../models/Models";
 import { GetRecordsByPageResponse } from "../models/Models";
 
-// const BASE_URL = "https://localhost:44318/api";
 const BASE_URL = "http://localhost:5000/api";
 
 export const getRecordsByPage = async (
@@ -22,7 +21,7 @@ export const updateRecord = async (updatedForm: FormDataModel) => {
   try {
     const response = await axios.put(
       `${BASE_URL}/bloodpressuremeasurement/${updatedForm.recordId}`,
-      createRecord(updatedForm)
+      createRecordModel(updatedForm)
     );
 
     return response;
@@ -47,7 +46,7 @@ export const addRecord = async (form: FormDataModel) => {
   try {
     const response = await axios.post(
       `${BASE_URL}/bloodpressuremeasurement`,
-      createRecord(form)
+      createRecordModel(form)
     );
 
     return response;
@@ -69,7 +68,7 @@ export const generateRecords = async (count: number) => {
   } catch (error) {}
 };
 
-const createRecord = (form: FormDataModel) => {
+const createRecordModel = (form: FormDataModel) => {
   return {
     RecordId: form.recordId,
     CreatedDate: form.createdDate,

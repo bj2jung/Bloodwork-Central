@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import {
-  BloodPressureMeasurementRecord,
-  GetRecordsByPageResponse,
-} from "../models/Models";
+
 import { Modal } from "antd";
 
 interface Props {

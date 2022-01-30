@@ -7,17 +7,13 @@ import {
   getRecordsByPage,
   updateRecord,
 } from "../actions/api";
-import {
-  BloodPressureMeasurementRecord,
-  FormDataModel,
-  GetRecordsByPageResponse,
-} from "../models/Models";
-import { Button, Input, Slider } from "antd";
+import { FormDataModel, GetRecordsByPageResponse } from "../models/Models";
+import { Button, Slider } from "antd";
 import TableComponent from "./TableComponent";
 import ModalComponent from "./ModalComponent";
 import BloodPressureForm from "./BloodPressureForm";
 
-const RecordsTable: React.FC = () => {
+function DashBoard() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<GetRecordsByPageResponse>();
@@ -163,131 +159,8 @@ const RecordsTable: React.FC = () => {
       >
         {modalContent}
       </ModalComponent>
-
-      {/* {!isLoading && generateTable(records)} */}
-      {/* {!isLoading && generatePaginationMenu(totalPages, currentPage)} */}
     </>
   );
-};
+}
 
-// const generateTable = (records: BloodPressureMeasurementRecord[]) => {
-//   const tableData = records.map((record) => ({
-//     key: record.RecordId,
-//     ...record,
-//   }));
-
-//   const columns = [
-//     {
-//       title: "#",
-//       dataIndex: "RecordId",
-//       key: "RecordId",
-//     },
-//     {
-//       title: "Date",
-//       dataIndex: "Date",
-//       key: "Date",
-//     },
-//     {
-//       title: "Reading 1",
-//       dataIndex: "Reading1",
-//       key: "Reading1",
-//     },
-//     {
-//       title: "Reading 2",
-//       dataIndex: "Reading2",
-//       key: "Reading2",
-//     },
-//     {
-//       title: "Action",
-//       key: "action",
-//       render: (record: BloodPressureMeasurementRecord) => (
-//         <Space size="middle">
-//           <Button onClick={() => console.log(record.RecordId)}>
-//             See Details
-//           </Button>
-//           <Button>Update</Button>
-//           <Button>Delete</Button>
-//         </Space>
-//       ),
-//     },
-//   ];
-
-//   return (
-//     <Table
-//       columns={columns}
-//       pagination={{ position: ["bottomRight"] }}
-//       dataSource={tableData}
-//     />
-//   );
-// };
-
-// const generateTableData = (
-//   records: BloodPressureMeasurementRecord[],
-//   viewDetailFn: Function
-// ) => {
-//   const dataSource = records.map((record) => ({
-//     key: record.RecordId,
-//     ...record,
-//   }));
-
-//   const columns = [
-//     {
-//       title: "#",
-//       dataIndex: "RecordId",
-//       key: "RecordId",
-//     },
-//     {
-//       title: "Date",
-//       dataIndex: "Date",
-//       key: "Date",
-//     },
-//     {
-//       title: "Reading 1",
-//       dataIndex: "Reading1",
-//       key: "Reading1",
-//     },
-//     {
-//       title: "Reading 2",
-//       dataIndex: "Reading2",
-//       key: "Reading2",
-//     },
-//     {
-//       title: "Action",
-//       key: "action",
-//       render: (record: BloodPressureMeasurementRecord) => (
-//         <Space size="middle">
-//           <Button onClick={viewDetailFn(record.RecordId)}>See Details</Button>
-//           <Button>Update</Button>
-//           <Button>Delete</Button>
-//         </Space>
-//       ),
-//     },
-//   ];
-
-//   return { dataSource, columns };
-// };
-
-// const generatePaginationMenu = (totalPages: number, currentPage: number) => {
-//   const pages = [];
-//   for (let i = 1; i <= totalPages; i++) {
-//     pages.push(
-//       <PaginationItem key={i}>
-//         <PaginationLink href="#">{i}</PaginationLink>
-//       </PaginationItem>
-//     );
-//   }
-
-//   return (
-//     <Pagination>
-//       <PaginationItem>
-//         <PaginationLink href="#" previous />
-//       </PaginationItem>
-//       {pages}
-//       <PaginationItem>
-//         <PaginationLink href="#" next />
-//       </PaginationItem>
-//     </Pagination>
-//   );
-// };
-
-export default connect()(RecordsTable);
+export default connect()(DashBoard);

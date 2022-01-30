@@ -4,7 +4,7 @@ import {
   BloodPressureMeasurementRecord,
   GetRecordsByPageResponse,
 } from "../models/Models";
-import { Table, Tag, Radio, Space, Button, Pagination } from "antd";
+import { Table, Space, Button, Pagination } from "antd";
 
 const RECORDS_PER_PAGE = 5;
 
@@ -19,7 +19,6 @@ interface Props {
 
 function TableComponent(props: Props) {
   const [records, setRecords] = useState<BloodPressureMeasurementRecord[]>([]);
-  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
     setRecords(
@@ -28,8 +27,6 @@ function TableComponent(props: Props) {
         ...record,
       }))
     );
-
-    setTotalPages(props.data!.TotalPages);
   }, [props.data]);
 
   const columns = [

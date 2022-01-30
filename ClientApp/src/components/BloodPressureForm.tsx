@@ -1,8 +1,7 @@
-﻿import React, { useState, useEffect } from "react";
+﻿import React, { useEffect } from "react";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
-import { addRecord } from "../actions/api";
-import { Form, Input, Button, DatePicker } from "antd";
+import { Form, Input, Button } from "antd";
 import { BloodPressureMeasurementRecord } from "../models/Models";
 import { FormDataModel } from "../models/Models";
 
