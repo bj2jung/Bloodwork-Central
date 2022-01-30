@@ -17,6 +17,34 @@ interface Props {
   onPageChange: Function;
 }
 
+export const TABLE_COLUMNS = [
+  {
+    title: "Created Date",
+    dataIndex: "CreatedDate",
+    key: "CreatedDate",
+  },
+  {
+    title: "Description",
+    dataIndex: "Description",
+    key: "Description",
+  },
+  {
+    title: "Systolic",
+    dataIndex: "SystolicMeasurement",
+    key: "SystolicMeasurement",
+  },
+  {
+    title: "Diastolic",
+    dataIndex: "DiastolicMeasurement",
+    key: "DiastolicMeasurement",
+  },
+  {
+    title: "Heart Rate",
+    dataIndex: "HeartRate",
+    key: "HeartRate",
+  },
+];
+
 function TableComponent(props: Props) {
   const [records, setRecords] = useState<BloodPressureMeasurementRecord[]>([]);
 
@@ -30,31 +58,7 @@ function TableComponent(props: Props) {
   }, [props.data]);
 
   const columns = [
-    {
-      title: "Created Date",
-      dataIndex: "CreatedDate",
-      key: "CreatedDate",
-    },
-    {
-      title: "Description",
-      dataIndex: "Description",
-      key: "Description",
-    },
-    {
-      title: "Systolic",
-      dataIndex: "SystolicMeasurement",
-      key: "SystolicMeasurement",
-    },
-    {
-      title: "Diastolic",
-      dataIndex: "DiastolicMeasurement",
-      key: "DiastolicMeasurement",
-    },
-    {
-      title: "Heart Rate",
-      dataIndex: "HeartRate",
-      key: "HeartRate",
-    },
+    ...TABLE_COLUMNS,
     {
       title: "Action",
       key: "action",

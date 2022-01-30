@@ -10,5 +10,8 @@ public interface IBloodPressureMeasurementRepository
     Task<BloodPressureMeasurement> AddRecord(BloodPressureMeasurement record);
     Task<BloodPressureMeasurement> UpdateRecord(BloodPressureMeasurement record);
     Task<BloodPressureMeasurement> DeleteRecord(int id);
+    Task<bool> GenerateRecords(int count);
+    Task<IEnumerable<BloodPressureMeasurement>> GetOutliers(double threshold);
+
 
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using react_asp.Models;
 using System;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 
 namespace react_asp.Controllers
@@ -29,7 +30,7 @@ namespace react_asp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Server Error");
             }
 
         }
@@ -43,7 +44,7 @@ namespace react_asp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Server Error");
             }
         }
 
@@ -64,7 +65,7 @@ namespace react_asp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Server Error");
             }
         }
 
@@ -88,7 +89,7 @@ namespace react_asp.Controllers
             {
 
 
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Server Error");
             }
         }
 
@@ -114,7 +115,7 @@ namespace react_asp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Server Error");
 
             }
         }
@@ -135,8 +136,62 @@ namespace react_asp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database Error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Server Error");
 
+            }
+        }
+
+
+        [HttpPost("generaterecords")]
+        public async Task<ActionResult<BloodPressureMeasurement>> GenerateRecords(GenerateRecordsRequest request)
+        {
+
+            try
+            {
+
+                if (request == null || request.Count < 1 || request.Count > 100)
+                {
+                    return BadRequest();
+                }
+
+                var recordsSuccessfullyCreated = await _db.GenerateRecords(request.Count);
+
+                if (recordsSuccessfullyCreated == true)
+                {
+                    return Ok("Successfully Created");
+                }
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Server Error");
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Server Error");
+            }
+        }
+
+        [HttpGet("outliers/{threshold:int}")]
+        public async Task<ActionResult<BloodPressureMeasurement>> GetOutlierRecords(int threshold)
+        {
+
+            try
+            {
+
+                if (threshold < 1 || threshold > 99)
+                {
+                    return BadRequest();
+                }
+
+
+
+                return Ok(await _db.GetOutliers(threshold));
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Server Error");
             }
         }
 

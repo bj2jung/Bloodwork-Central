@@ -4,6 +4,15 @@ namespace react_asp.Models
 {
     public class BloodPressureMeasurement
     {
+        public BloodPressureMeasurement(string createdDate, string examDate, int systolicMeasurement, int diastolicMeasurement, int heartRate, string description)
+        {
+            CreatedDate = createdDate;
+            ExamDate = examDate;
+            SystolicMeasurement = systolicMeasurement;
+            DiastolicMeasurement = diastolicMeasurement;
+            HeartRate = heartRate;
+            Description = description;
+        }
 
         [Key]
         public int RecordId { get; set; }

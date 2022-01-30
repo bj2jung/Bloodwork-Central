@@ -12,21 +12,10 @@
     <None Update="ClientApp\src\actions\api.ts">
       <SubType>Code</SubType>
     </None>
-    <TypeScriptCompile Update="ClientApp\src\components\AddRecord.tsx">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
     <TypeScriptCompile Update="ClientApp\src\components\BloodPressureForm.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Update="ClientApp\src\requests\bloodMeasurements.ts">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Update="ClientApp\src\components\RecordsTable.tsx">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup />
 </Project>

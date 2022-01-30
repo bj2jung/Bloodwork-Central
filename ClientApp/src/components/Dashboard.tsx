@@ -4,36 +4,70 @@ import {
   addRecord,
   deleteRecord,
   generateRecords,
+  getAllRecords,
   getRecordsByPage,
   updateRecord,
 } from "../actions/api";
-import { FormDataModel, GetRecordsByPageResponse } from "../models/Models";
-import { Button, Slider } from "antd";
+import {
+  BloodPressureMeasurementRecord,
+  FormDataModel,
+  GetRecordsByPageResponse,
+} from "../models/Models";
+import { Button, Slider, notification, Spin } from "antd";
 import TableComponent from "./TableComponent";
+import ChartComponent from "./ChartComponent";
 import ModalComponent from "./ModalComponent";
+import Outliers from "./Outliers";
 import BloodPressureForm from "./BloodPressureForm";
 
 function DashBoard() {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [data, setData] = useState<GetRecordsByPageResponse>();
+  const [isTableLoading, setIsTableLoading] = useState<boolean>(true);
+  const [tableData, setTableData] = useState<GetRecordsByPageResponse>();
+  const [isChartLoading, setIsChartLoading] = useState<boolean>(true);
+  const [chartData, setChartData] =
+    useState<BloodPressureMeasurementRecord[]>();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalHeader, setModalHeader] = useState<string>("");
   const [modalContent, setModalContent] = useState<ReactElement>();
   const sliderRef = useRef();
 
   useEffect(() => {
-    getData();
+    getTableData();
+    getChartData();
   }, []);
 
-  const getData = async () => {
-    const data: GetRecordsByPageResponse = await getRecordsByPage(currentPage);
-    setData(data);
-    setIsLoading(false);
+  const getTableData = async () => {
+    const tableData: GetRecordsByPageResponse | null = await getRecordsByPage(
+      currentPage
+    );
+
+    if (!tableData) {
+      showServerError();
+      setIsTableLoading(false);
+      return;
+    }
+
+    setTableData(tableData);
+    setIsTableLoading(false);
+  };
+
+  const getChartData = async () => {
+    const chartData: BloodPressureMeasurementRecord[] | null =
+      await getAllRecords();
+
+    if (!chartData) {
+      showServerError();
+      setIsChartLoading(false);
+      return;
+    }
+
+    setChartData(chartData);
+    setIsChartLoading(false);
   };
 
   const handleClickDetails = (id: number) => {
-    const selectedRecord = data!.Records.find(
+    const selectedRecord = tableData!.Records.find(
       (record) => record.RecordId == id
     );
 
@@ -51,7 +85,7 @@ function DashBoard() {
   };
 
   const handleClickUpdate = (id: number) => {
-    const selectedRecord = data!.Records.find(
+    const selectedRecord = tableData!.Records.find(
       (record) => record.RecordId == id
     );
 
@@ -70,7 +104,9 @@ function DashBoard() {
   const handleRecordUpdate = async (form: FormDataModel) => {
     const response = await updateRecord(form);
     if (response) {
-      getData();
+      getTableData();
+    } else {
+      showServerError();
     }
 
     setShowModal(false);
@@ -79,7 +115,9 @@ function DashBoard() {
   const handleClickDelete = async (id: number) => {
     const response = await deleteRecord(id);
     if (response) {
-      getData();
+      getTableData();
+    } else {
+      showServerError();
     }
   };
 
@@ -94,7 +132,9 @@ function DashBoard() {
   const handleAddRecord = async (form: FormDataModel) => {
     const response = await addRecord(form);
     if (response) {
-      getData();
+      getTableData();
+    } else {
+      showServerError();
     }
     setShowModal(false);
   };
@@ -104,7 +144,7 @@ function DashBoard() {
   };
 
   useEffect(() => {
-    getData();
+    getTableData();
   }, [currentPage]);
 
   const handleClickGenerateRecords = () => {
@@ -121,17 +161,41 @@ function DashBoard() {
     setShowModal(true);
   };
 
-  const handleGenerateRecords = () => {
+  const handleGenerateRecords = async () => {
     // @ts-ignore
     const count = sliderRef.current.state.value;
 
-    generateRecords(count);
+    const response = await generateRecords(count);
+
+    if (response) {
+      getTableData();
+    } else {
+      showServerError();
+    }
 
     setShowModal(false);
   };
 
+  const handleClickFindOutliers = () => {
+    setModalHeader("Find outliers");
+    setModalContent(
+      <>
+        <Outliers />
+      </>
+    );
+    setShowModal(true);
+  };
+
   const handleModalCancel = () => {
     setShowModal(false);
+  };
+
+  const showServerError = () => {
+    notification.open({
+      placement: "bottomRight",
+      type: "error",
+      message: "Server Error",
+    });
   };
 
   return (
@@ -139,9 +203,17 @@ function DashBoard() {
       <Button type="primary" onClick={() => handleClickAddRecord()}>
         Add Record
       </Button>
-      {!isLoading && (
+      <Button type="primary" onClick={() => handleClickGenerateRecords()}>
+        Generate Random Records
+      </Button>
+      <Button type="primary" onClick={() => handleClickFindOutliers()}>
+        Find Outliers
+      </Button>
+      {isTableLoading ? (
+        <Spin />
+      ) : (
         <TableComponent
-          data={data}
+          data={tableData}
           currentPage={currentPage}
           handleClickDetails={handleClickDetails}
           handleClickUpdate={handleClickUpdate}
@@ -149,9 +221,7 @@ function DashBoard() {
           onPageChange={handlePageChange}
         />
       )}
-      <Button type="primary" onClick={() => handleClickGenerateRecords()}>
-        Generate Records
-      </Button>
+      {isChartLoading ? <Spin /> : <ChartComponent data={chartData} />}
       <ModalComponent
         showModal={showModal}
         handleModalCancel={handleModalCancel}
