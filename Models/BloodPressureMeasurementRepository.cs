@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Serialization;
 
 namespace react_asp.Models
 {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using react_asp.Models;
 
 namespace react_asp.Models
 {
