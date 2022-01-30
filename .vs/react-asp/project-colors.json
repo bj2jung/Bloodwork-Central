@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "bda35103-5e70-47c8-b77b-e13520299237": {
+      "ProjectGuid": "bda35103-5e70-47c8-b77b-e13520299237",
+      "DisplayName": "react-asp",
+      "ColorIndex": 0
+    },
+    "075fef6b-7141-467c-b309-000a2272250f": {
+      "ProjectGuid": "075fef6b-7141-467c-b309-000a2272250f",
+      "DisplayName": "react-asp",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 2
+}
